@@ -26,6 +26,8 @@ class Model: ObservableObject {
     @Published var sports: [Sport] = []
     
     init() {
+        // Baseball data
+        
         var team = Team(name: "Cardinals")
         team.players.append(Player("Yadier Molina"))
         team.players.append(Player("Adam Wainwright"))
@@ -35,6 +37,10 @@ class Model: ObservableObject {
         team.players.append(Player("Jason Heyward"))
         team.players.append(Player("Patrick Wisdom"))
         baseball.teams.append(team)
+        
+        sports.append(baseball)
+        
+        // Football data
         
         team = Team(name: "Buccaneers")
         team.players.append(Player("Tom Brady"))
@@ -46,6 +52,10 @@ class Model: ObservableObject {
         team.players.append(Player("Davante Adams"))
         football.teams.append(team)
         
+        sports.append(football)
+        
+        // Hockey data
+        
         team = Team(name: "Blues")
         team.players.append(Player("Vladimir Tarsenko"))
         team.players.append(Player("Jordan Binnington"))
@@ -56,9 +66,6 @@ class Model: ObservableObject {
         team.players.append(Player("Jonathan Toews"))
         hockey.teams.append(team)
         
-        sports.append(baseball)
-        sports.append(football)
         sports.append(hockey)
     }
-    
 }

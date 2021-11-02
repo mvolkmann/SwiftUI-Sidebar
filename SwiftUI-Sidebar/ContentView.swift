@@ -18,6 +18,7 @@ struct SportsView: View {
         List(model.sports, id: \.self) { sport in
             NavigationLink(
                 destination: TeamsView(
+                    sport: sport,
                     selectedSport: $selectedSport,
                     selectedTeam: $selectedTeam
                 ),
@@ -31,18 +32,24 @@ struct SportsView: View {
 }
 
 struct TeamsView: View {
+    var sport: Sport
     @Binding var selectedSport: Sport?
     @Binding var selectedTeam: Team?
 
     var body: some View {
-        List(selectedSport?.teams ?? [], id: \.self) { team in
-            NavigationLink(
-                destination: PlayersView(selectedTeam: $selectedTeam),
-                tag: team,
-                selection: $selectedTeam
-                
-            ) {
-                Text(team.name)
+        VStack {
+            Text(sport.name)
+            List(selectedSport?.teams ?? [], id: \.self) { team in
+                NavigationLink(
+                    destination: PlayersView(
+                        selectedTeam: $selectedTeam
+                    ),
+                    tag: team,
+                    selection: $selectedTeam
+
+                ) {
+                    Text(team.name)
+                }
             }
         }
     }
@@ -52,8 +59,11 @@ struct PlayersView: View {
     @Binding var selectedTeam: Team?
 
     var body: some View {
-        List(selectedTeam?.players ?? [], id: \.self) { player in
-            Text(player.name)
+        VStack {
+            Text(selectedTeam?.name ?? "None")
+            List(selectedTeam?.players ?? [], id: \.self) { player in
+                Text(player.name)
+            }
         }
     }
 }
@@ -61,9 +71,9 @@ struct PlayersView: View {
 struct ContentView: View {
     @State private var selectedSport: Sport?
     @State private var selectedTeam: Team?
-    
+
     var model: Model
-    
+
     var body: some View {
         NavigationView {
             SportsView(
@@ -71,11 +81,8 @@ struct ContentView: View {
                 selectedSport: $selectedSport,
                 selectedTeam: $selectedTeam
             )
-            TeamsView(
-                selectedSport: $selectedSport,
-                selectedTeam: $selectedTeam
-            )
-            PlayersView(selectedTeam: $selectedTeam)
+            Text("Select a sport")
+            Text("Select a team")
         }
     }
 }

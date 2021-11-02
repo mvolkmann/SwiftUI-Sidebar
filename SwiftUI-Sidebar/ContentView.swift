@@ -15,30 +15,31 @@ struct SportsView: View {
     @Binding var selectedTeam: Team?
 
     var body: some View {
-        List(model.sports, id: \.self) { sport in
-            NavigationLink(
-                destination: TeamsView(
-                    sport: sport,
-                    selectedSport: $selectedSport,
-                    selectedTeam: $selectedTeam
-                ),
-                tag: sport,
-                selection: $selectedSport
-            ) {
-                Text(sport.name)
-            }
-        }.listStyle(.sidebar)
+        VStack {
+            Text("Sports").font(.headline)
+            List(model.sports, id: \.self) { sport in
+                NavigationLink(
+                    destination: TeamsView(
+                        selectedSport: $selectedSport,
+                        selectedTeam: $selectedTeam
+                    ),
+                    tag: sport,
+                    selection: $selectedSport
+                ) {
+                    Text(sport.name)
+                }
+            }.listStyle(.sidebar)
+        }
     }
 }
 
 struct TeamsView: View {
-    var sport: Sport
     @Binding var selectedSport: Sport?
     @Binding var selectedTeam: Team?
 
     var body: some View {
         VStack {
-            Text(sport.name)
+            Text(selectedSport?.name ?? "None").font(.headline)
             List(selectedSport?.teams ?? [], id: \.self) { team in
                 NavigationLink(
                     destination: PlayersView(
@@ -60,7 +61,7 @@ struct PlayersView: View {
 
     var body: some View {
         VStack {
-            Text(selectedTeam?.name ?? "None")
+            Text(selectedTeam?.name ?? "None").font(.headline)
             List(selectedTeam?.players ?? [], id: \.self) { player in
                 Text(player.name)
             }
